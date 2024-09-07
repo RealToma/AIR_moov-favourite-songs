@@ -1,0 +1,24 @@
+version: '3.5'
+
+services:
+  app:
+    build:
+      context: ./app
+      dockerfile: Dockerfile
+      args:
+        NODE_ENV: development
+        SSG_REVALIDATE: ${SSG_REVALIDATE}
+    volumes:
+      - ./app:/app
+      - /app/node_modules
+      - ./.cache/app/yarn:/usr/local/share/.cache/yarn
+      - ./.cache/app/npm:/root/.npm
+    ports:
+      - '1111:3000'
+    environment:
+      - BUILD_PATH_MODE=development
+      - APP_PREFIX=${APP_PREFIX}
+      - APP_URL=http://localhost/fansreport/2022
+      - API_URL=https://moov-song.make-project.fun/fansreport/2022/api
+    command: npm run dev
+
